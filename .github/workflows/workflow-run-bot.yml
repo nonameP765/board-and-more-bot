@@ -2,6 +2,11 @@ name: run bot
 
 on:
   workflow_call:
+    secrets:
+      DISCORD_TOKEN:
+        required: true
+      GUILD_ID:
+        required: true
 
 jobs:
   run-bot:

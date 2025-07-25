@@ -10,5 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  run-bot:
     uses: ./.github/workflows/workflow-run-bot.yml
+    secrets:
+      DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      GUILD_ID: ${{ secrets.GUILD_ID }}
