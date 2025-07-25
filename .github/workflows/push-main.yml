@@ -1,0 +1,14 @@
+name: push main
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: run-bot
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: ./.github/workflows/workflow-lint-check.yml
