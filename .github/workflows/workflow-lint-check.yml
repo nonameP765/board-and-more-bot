@@ -15,11 +15,8 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Nix develop
-        run: nix develop
-
       - name: Install dependencies
-        run: pnpm install
+        run: nix develop --command pnpm install
 
       - name: Run Lint
-        run: pnpm lint
+        run: nix develop --command pnpm lint
