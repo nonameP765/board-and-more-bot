@@ -11,4 +11,4 @@ concurrency:
 
 jobs:
   lint:
-    uses: ./.github/workflows/workflow-lint-check.yml
+    uses: ./.github/workflows/workflow-run-bot.yml
