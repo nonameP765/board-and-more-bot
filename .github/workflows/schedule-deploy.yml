@@ -1,0 +1,14 @@
+name: schedule deploy
+
+on:
+  schedule:
+    - cron: '0 19 * * *'
+    - cron: '0 7 * * *'
+
+concurrency:
+  group: run-bot
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: ./.github/workflows/workflow-run-bot.yml

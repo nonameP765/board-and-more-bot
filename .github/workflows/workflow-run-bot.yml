@@ -1,0 +1,30 @@
+name: run bot
+
+on:
+  workflow_call:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install nix action
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Install dependencies
+        run: nix develop --command pnpm install
+
+      - name: Build project
+        run: nix develop --command pnpm run build
+
+      - name: Run Discord Bot
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+        run: |
+          echo "🚀 Starting Discord Bot..."
+          nix develop --command timeout 3600 pnpm start || echo "Bot ran for 1 hour"
