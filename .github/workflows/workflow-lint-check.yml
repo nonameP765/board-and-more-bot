@@ -10,13 +10,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install nix action
-        uses: cachix/install-nix-action@v31
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-
-      - name: Install dependencies
-        run: nix develop --command pnpm install
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Run Lint
-        run: nix develop --command pnpm lint
+        run: bun lint

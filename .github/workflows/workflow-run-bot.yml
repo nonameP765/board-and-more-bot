@@ -15,40 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install nix action
-        uses: cachix/install-nix-action@v31
-        with:
-          nix_path: nixpkgs=channel:nixos-unstable
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            substituters = https://cache.nixos.org/ https://nix-community.cachix.org
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-
-      - name: Cache Nix store
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/nix
-            /nix/store
-          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-
-
-      - name: Cache pnpm modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: Install dependencies
-        run: nix develop --command pnpm install --prefer-offline
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Build project
-        run: nix develop --command pnpm run build
+        run: bun run build
 
       - name: Run Discord Bot
         env:
@@ -56,4 +27,4 @@ jobs:
           GUILD_ID: ${{ secrets.GUILD_ID }}
         run: |
           echo "🚀 Starting Discord Bot..."
-          nix develop --command pnpm start
+          bun start

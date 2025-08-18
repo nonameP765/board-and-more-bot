@@ -45,7 +45,11 @@ module.exports = [
     plugins: {
       import: eslintPluginImport
     },
-    rules: eslintPluginImport.configs.recommended.rules
+    rules: {
+      ...eslintPluginImport.configs.recommended.rules,
+      'import/no-unresolved': 'off',
+      'import/extensions': 'off'
+    }
   },
   // Prettier config
   eslintConfigPrettier
