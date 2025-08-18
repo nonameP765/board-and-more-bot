@@ -1,0 +1,11 @@
+name: Setup Bun Environment with Direnv
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+
+    - name: Install dependencies via Bun
+      run: bun install --frozen-lockfile
+      shell: bash
